@@ -122,16 +122,21 @@
 			<!--<artifactId>postgresql</artifactId>-->
 		<!--</dependency>-->
 		<!-- mongo驱动 -->
-		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongo-java-driver</artifactId>
-			<version>${mongo.version}</version>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.mongodb</groupId>-->
+			<!--<artifactId>mongo-java-driver</artifactId>-->
+			<!--<version>${mongo.version}</version>-->
+		<!--</dependency>-->
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.18.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-compress</artifactId>
+			<version>1.18</version>
 		</dependency>
 	</dependencies>
 

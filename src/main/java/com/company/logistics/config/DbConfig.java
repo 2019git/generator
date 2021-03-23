@@ -1,7 +1,6 @@
 package com.company.logistics.config;
 
 import com.company.logistics.dao.GeneratorDao;
-import com.company.logistics.dao.MongoDBGeneratorDao;
 import com.company.logistics.dao.MySQLGeneratorDao;
 import com.company.logistics.dao.OracleGeneratorDao;
 import com.company.logistics.dao.PostgreSQLGeneratorDao;
@@ -10,7 +9,6 @@ import com.company.logistics.utils.RRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
@@ -32,11 +30,8 @@ public class DbConfig {
     @Autowired
     private PostgreSQLGeneratorDao postgreSQLGeneratorDao;
 
-    private static boolean mongo = false;
-
     @Bean
     @Primary
-    @Conditional(MongoNullCondition.class)
     public GeneratorDao getGeneratorDao() {
         if ("mysql".equalsIgnoreCase(database)) {
             return mySQLGeneratorDao;
@@ -49,18 +44,6 @@ public class DbConfig {
         } else {
             throw new RRException("不支持当前数据库：" + database);
         }
-    }
-
-    @Bean
-    @Primary
-    @Conditional(MongoCondition.class)
-    public GeneratorDao getMongoDBDao(MongoDBGeneratorDao mongoDBGeneratorDao) {
-        mongo = true;
-        return mongoDBGeneratorDao;
-    }
-
-    public static boolean isMongo() {
-        return mongo;
     }
 
 }

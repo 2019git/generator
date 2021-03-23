@@ -34,7 +34,6 @@ public class SysGeneratorController {
 	@RequestMapping("/list")
 	public R list(@RequestParam Map<String, Object> params){
 		PageUtils pageUtil = sysGeneratorService.queryList(new Query(params));
-		
 		return R.ok().put("page", pageUtil);
 	}
 	
@@ -44,7 +43,6 @@ public class SysGeneratorController {
 	@RequestMapping("/code")
 	public void code(String tables, HttpServletResponse response) throws IOException{
 		byte[] data = sysGeneratorService.generatorCode(tables.split(","));
-		
 		response.reset();  
         response.setHeader("Content-Disposition", "attachment; filename=\"logistics.zip\"");
         response.addHeader("Content-Length", "" + data.length);  

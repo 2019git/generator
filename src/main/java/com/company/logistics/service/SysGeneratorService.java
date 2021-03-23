@@ -1,9 +1,6 @@
 package com.company.logistics.service;
 
-import com.company.logistics.config.MongoManager;
 import com.company.logistics.dao.GeneratorDao;
-import com.company.logistics.dao.MongoDBGeneratorDao;
-import com.company.logistics.factory.MongoDBCollectionFactory;
 import com.company.logistics.utils.GenUtils;
 import com.company.logistics.utils.PageUtils;
 import com.company.logistics.utils.Query;
@@ -33,9 +30,6 @@ public class SysGeneratorService {
         Page<?> page = PageHelper.startPage(query.getPage(), query.getLimit());
         List<Map<String, Object>> list = generatorDao.queryList(query);
         int total = (int) page.getTotal();
-        if (generatorDao instanceof MongoDBGeneratorDao) {
-            total = MongoDBCollectionFactory.getCollectionTotal(query);
-        }
         return new PageUtils(list, total, query.getLimit(), query.getPage());
     }
 
@@ -59,11 +53,6 @@ public class SysGeneratorService {
             //生成代码
             GenUtils.generatorCode(table, columns, zip);
         }
-        if (MongoManager.isMongo()) {
-            GenUtils.generatorMongoCode(tableNames, zip);
-        }
-
-
         IOUtils.closeQuietly(zip);
         return outputStream.toByteArray();
     }
