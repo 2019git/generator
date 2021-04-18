@@ -39,7 +39,8 @@ public class GenUtils {
 
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<String>();
-        //templates.add("template/Entity.java.vm");
+        templates.add("template/Entity.java.vm");
+        templates.add("template/Vo.java.vm");
         templates.add("template/Mapper.xml.vm");
         //templates.add("template/menu.sql.vm");
         templates.add("template/Service.java.vm");
@@ -144,7 +145,7 @@ public class GenUtils {
         map.put("pk", tableEntity.getPk());
         map.put("className", tableEntity.getClassName());
         map.put("classname", tableEntity.getClassname());
-        map.put("pathName", tableEntity.getClassname().toLowerCase());
+        map.put("pathName", tableEntity.getClassname().substring(1).toLowerCase() + tableEntity.getClassname().substring(1,tableEntity.getClassname().length()));
         map.put("columns", tableEntity.getColumns());
         map.put("hasBigDecimal", hasBigDecimal);
         map.put("hasList", hasList);
@@ -204,11 +205,14 @@ public class GenUtils {
             return packagePath + "entity" + File.separator + "inner" + File.separator + currentTableName+ File.separator + splitInnerName(className)+ "InnerEntity.java";
         }
         if (template.contains("Entity.java.vm") || template.contains("MongoEntity.java.vm")) {
-            return packagePath + "entity" + File.separator + className + "Entity.java";
+            return packagePath + "entity" + File.separator + className + ".java";
+        }
+        if (template.contains("Vo.java.vm") || template.contains("MongoEntity.java.vm")) {
+            return packagePath + "entity" + File.separator + className + "Vo.java";
         }
 
         if (template.contains("Mapper.java.vm")) {
-            return packagePath + "dao" + File.separator + className + "Dao.java";
+            return packagePath + "mapper" + File.separator + className + "Mapper.java";
         }
 
         if (template.contains("Service.java.vm")) {
@@ -224,7 +228,7 @@ public class GenUtils {
         }
 
         if (template.contains("Mapper.xml.vm")) {
-            return "main" + File.separator + "resources" + File.separator + "mapper" + File.separator + moduleName + File.separator + className + "Dao.xml";
+            return "main" + File.separator + "resources" + File.separator + "mapper" + File.separator + moduleName + File.separator + className + "Mapper.xml";
         }
 
         if (template.contains("menu.sql.vm")) {

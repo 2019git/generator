@@ -1,10 +1,8 @@
 package ${package}.${moduleName}.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import ${mainPath}.common.utils.PageUtils;
-import ${package}.${moduleName}.entity.${className}Entity;
-
-import java.util.Map;
+import com.company.logistics.base.BaseService;
+import com.company.logistics.base.PageParam;
+import com.company.logistics.base.Pagination;
 
 /**
  * ${comments}
@@ -13,8 +11,48 @@ import java.util.Map;
  * @email ${email}
  * @date ${datetime}
  */
-public interface ${className}Service extends IService<${className}Entity> {
+public interface ${className}Service extends BaseService<${className}> {
 
-    PageUtils queryPage(Map<String, Object> params);
+    /**
+     * 分页列表
+     *
+     * @author ${author}
+     * @email ${email}
+     * @date ${datetime}
+     */
+    Pagination queryPage(PageParam pageParam);
+
+    /**
+     * 查询详情信息
+     * @author ${author}
+     * @email ${email}
+     * @date ${datetime}
+     */
+    ${className}Vo queryInfo(Long id);
+
+    /**
+     * 添加
+     *
+     * @author ${author}
+     * @email ${email}
+     * @date ${datetime}
+     */
+    void save(${className}Vo ${classname}Vo);
+
+    /**
+     * 修改详情信息
+     * @author ${author}
+     * @email ${email}
+     * @date ${datetime}
+     */
+    void updateInfo(${className}Vo ${classname}Vo);
+
+    /**
+     * 删除信息
+     * @author ${author}
+     * @email ${email}
+     * @date ${datetime}
+     */
+    void deleteInfo(Long id);
 }
 

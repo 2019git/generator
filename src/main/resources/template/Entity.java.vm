@@ -1,14 +1,14 @@
 package ${package}.${moduleName}.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.company.logistics.base.BaseEntity;
 
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
 #end
 import java.io.Serializable;
-import java.util.Date;
 import lombok.Data;
+
+import javax.persistence.Table;
 
 /**
  * ${comments}
@@ -18,18 +18,19 @@ import lombok.Data;
  * @date ${datetime}
  */
 @Data
-@TableName("${tableName}")
-public class ${className}Entity implements Serializable {
+@Table(name = "${tableName}")
+public class ${className} extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 #foreach ($column in $columns)
+	#if($column.attrname != "id" && $column.attrname != "deleted" && $column.attrname != "createDate" && $column.attrname != "updateDate"
+	&& $column.attrname != "createUser" && $column.attrname != "updateUser")
+
 	/**
-	 * $column.comments
-	 */
-	#if($column.columnName == $pk.columnName)
-@TableId
+     * $column.comments
+     */
+	private $column.attrType $column.attrname;
 	#end
-private $column.attrType $column.attrname;
 #end
 
 }

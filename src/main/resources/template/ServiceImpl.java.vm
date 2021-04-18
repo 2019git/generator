@@ -1,29 +1,52 @@
 package ${package}.${moduleName}.service.impl;
 
+import com.company.logistics.base.BaseServiceImpl;
+import com.company.logistics.base.PageParam;
+import com.company.logistics.base.Pagination;
+import com.company.logistics.util.BaseEntityUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import java.util.Map;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import ${mainPath}.common.utils.PageUtils;
-import ${mainPath}.common.utils.Query;
 
-import ${package}.${moduleName}.dao.${className}Dao;
-import ${package}.${moduleName}.entity.${className}Entity;
-import ${package}.${moduleName}.service.${className}Service;
+import java.util.List;
 
-
-@Service("${classname}Service")
-public class ${className}ServiceImpl extends ServiceImpl<${className}Dao, ${className}Entity> implements ${className}Service {
+@Service
+public class ${className}ServiceImpl extends BaseServiceImpl<${className}Mapper, ${className}> implements ${className}Service {
 
     @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<${className}Entity> page = this.page(
-                new Query<${className}Entity>().getPage(params),
-                new QueryWrapper<${className}Entity>()
-        );
-
-        return new PageUtils(page);
+    public Pagination queryPage(PageParam pageParam) {
+        Page<${className}Vo> page = PageHelper.startPage(pageParam.getPage(), pageParam.getSize());
+        List<${className}Vo> list = mapper.queryList();
+        return new Pagination(pageParam.getPage(), pageParam.getSize(), (int)page.getTotal(),list);
     }
 
+    @Override
+    public ${className}Vo queryInfo(Long id) {
+        ${className} ${classname} = this.selectById(id);
+        ${className}Vo ${classname}Vo = new ${className}Vo();
+        BeanUtils.copyProperties(${classname},${classname}Vo);
+        return ${classname}Vo;
+    }
+
+    @Override
+    public void save(${className}Vo ${classname}Vo) {
+        ${className} ${classname} = new ${className}();
+        BeanUtils.copyProperties(${classname}Vo,${classname});
+        BaseEntityUtil.createEntityInfo(${classname});
+        mapper.insert(${classname});
+    }
+
+    @Override
+    public void updateInfo(${className}Vo ${classname}Vo) {
+        ${className} ${classname} = this.selectById(${classname}Vo.getId());
+        BeanUtils.copyProperties(${classname}Vo,${classname},BaseEntityUtil.ignoreProperties);
+        BaseEntityUtil.updateEntityInfo(${classname});
+        mapper.updateByPrimaryKey(${classname});
+    }
+
+    @Override
+    public void deleteInfo(Long id) {
+        mapper.deleteInfo(id);
+    }
 }

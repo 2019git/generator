@@ -1,8 +1,10 @@
-package ${package}.${moduleName}.dao;
+package ${package}.${moduleName}.mapper;
 
-import ${package}.${moduleName}.entity.${className}Entity;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
+import com.company.logistics.base.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 /**
  * ${comments}
@@ -11,7 +13,23 @@ import org.apache.ibatis.annotations.Mapper;
  * @email ${email}
  * @date ${datetime}
  */
-@Mapper
-public interface ${className}Dao extends BaseMapper<${className}Entity> {
-	
+public interface ${className}Mapper extends BaseMapper<${className}>{
+
+    /**
+     * 查询集合
+     *
+     * @author ${author}
+     * @email ${email}
+     * @date ${datetime}
+     */
+    List<${className}Vo> queryList();
+
+    /**
+     * 删除信息(逻辑删除)
+     * @author ${author}
+     * @email ${email}
+     * @date ${datetime}
+     */
+    @Update("update ${tableName} set deleted = 1 where id = #{id}")
+    void deleteInfo(@Param("id") Long id);
 }
